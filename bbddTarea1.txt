@@ -1,0 +1,164 @@
+BASE_DE_DATOS_TAREA1
+
+mysql> CREATE DATABASE IF NOT EXISTS Gestor_Transaccional;
+Query OK, 1 row affected (0,01 sec)
+
+mysql> USE Gestor_Transaccional;
+Database changed
+mysql> CREATE TABLE Perfiles (
+    ->     id INT PRIMARY KEY,
+    ->     imagen_perfil VARCHAR(255),
+    ->     email VARCHAR(255) NOT NULL,
+    ->     num_tel VARCHAR(20),
+    ->     ubicacion VARCHAR(255)
+    -> );
+Query OK, 0 rows affected (0,04 sec)
+
+mysql> CREATE TABLE Entidades (
+    ->     id INT PRIMARY KEY,
+    ->     nombre VARCHAR(255) NOT NULL,
+    ->     ubicacion VARCHAR(255)
+    -> );
+Query OK, 0 rows affected (0,03 sec)
+
+
+mysql> CREATE TABLE Clientes (
+    ->     id INT PRIMARY KEY,
+    ->     num_cuenta VARCHAR(20) NOT NULL,
+    ->     entidad_perteneciente INT,
+    ->     nombre VARCHAR(255),
+    ->     FOREIGN KEY (entidad_perteneciente) REFERENCES Entidades(id)
+    -> );
+Query OK, 0 rows affected (0,05 sec)
+
+mysql> CREATE TABLE Transacciones (
+    ->     id INT PRIMARY KEY,
+    ->     fecha DATE,
+    ->     hora TIME,
+    ->     descripcion VARCHAR(255)
+    -> );
+Query OK, 0 rows affected (0,04 sec)
+
+mysql> CREATE TABLE Roles (
+    ->     id INT PRIMARY KEY,
+    ->     tipo VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0,03 sec)
+
+mysql> CREATE TABLE Bitacoras (
+    ->     id INT PRIMARY KEY,
+    ->     fecha DATE,
+    ->     ubicacion VARCHAR(255),
+    ->     descripcion VARCHAR(255)
+    -> );
+Query OK, 0 rows affected (0,03 sec)
+
+mysql> SHOW TABLES;
++--------------------------------+
+| Tables_in_Gestor_Transaccional |
++--------------------------------+
+| Bitacoras                      |
+| Clientes                       |
+| Entidades                      |
+| Perfiles                       |
+| Roles                          |
+| Transacciones                  |
++--------------------------------+
+6 rows in set (0,00 sec)
+
+mysql> INSERT INTO Entidades (id, nombre, ubicacion) VALUES
+    -> (5, 'Banco_Central', 'David'),
+    -> (6, 'Uber', 'Chitré'),
+    -> (7, 'TaxiExpress', 'Colón'),
+    -> (8, 'Regional_Bank', 'Santiago');
+Query OK, 4 rows affected (0,00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+
+mysql> INSERT INTO Clientes (id, num_cuenta, entidad_perteneciente, nombre) VALUES
+    -> (1, '1234567890123456', 1, 'Juan Perez'),
+    -> (2, '2345678901234567', 2, 'Maria Rodriguez'),
+    -> (3, '3456789012345678', 3, 'Pedro Lopez'),
+    -> (4, '4567890123456789', 4, 'Ana Garcia');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`Gestor_Transaccional`.`Clientes`, CONSTRAINT `Clientes_ibfk_1` FOREIGN KEY (`entidad_perteneciente`) REFERENCES `Entidades` (`id`))
+
+
+mysql> INSERT INTO Transacciones (id, fecha, hora, descripcion) VALUES
+    -> (1, '2024-01-31', '12:30:00', 'Compra en Banco_General'),
+    -> (2, '2024-01-31', '13:45:00', 'Viaje en Uber'),
+    -> (3, '2024-01-31', '15:00:00', 'Pago en Indrive'),
+    -> (4, '2024-01-31', '16:30:00', 'Transferencia en Global_Bank');
+Query OK, 4 rows affected (0,01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO Perfiles (id, imagen_perfil, email, num_tel, ubicacion) VALUES
+    -> (1, 'avatar1.jpg', 'juan.perez@email.com', '+5071234567', 'Ciudad de Panamá'),
+    -> (2, 'avatar2.jpg', 'maria.rodriguez@email.com', '+5072345678', 'Ciudad de Panamá'),
+    -> (3, 'avatar3.jpg', 'pedro.lopez@email.com', '+5073456789', 'Ciudad de Panamá'),
+    -> (4, 'avatar4.jpg', 'ana.garcia@email.com', '+5074567890', 'Ciudad de Panamá');
+Query OK, 4 rows affected (0,01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO Roles (id, tipo) VALUES
+    -> (1, 'Admin'),
+    -> (2, 'Usuario Normal'),
+    -> (3, 'Conductor');
+Query OK, 3 rows affected (0,01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO Bitacoras (id, fecha, ubicacion, descripcion) VALUES
+    -> (5, '2024-01-31', 'Chitré', 'Inicio de sesión exitoso'),
+    -> (6, '2024-01-31', 'Colón', 'Error en la transacción'),
+    -> (7, '2024-01-31', 'Santiago', 'Actualización de perfil'),
+    -> (8, '2024-01-31', 'David', 'Cierre de sesión');
+Query OK, 4 rows affected (0,01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> -- Ver todos los datos de la tabla Clientes
+mysql> SELECT * FROM Clientes;
+Empty set (0,00 sec)
+
+mysql> SELECT * FROM Entidades;
++----+---------------+-----------+
+| id | nombre        | ubicacion |
++----+---------------+-----------+
+|  5 | Banco_Central | David     |
+|  6 | Uber          | Chitré    |
+|  7 | TaxiExpress   | Colón     |
+|  8 | Regional_Bank | Santiago  |
++----+---------------+-----------+
+4 rows in set (0,00 sec)
+
+mysql> SHOW TABLES;
++--------------------------------+
+| Tables_in_Gestor_Transaccional |
++--------------------------------+
+| Bitacoras                      |
+| Clientes                       |
+| Entidades                      |
+| Perfiles                       |
+| Roles                          |
+| Transacciones                  |
++--------------------------------+
+6 rows in set (0,00 sec)
+
+mysql> DROP TABLE IF EXISTS Clientes;
+Query OK, 0 rows affected (0,03 sec)
+
+mysql> CREATE TABLE Clientes (
+    ->     id INT PRIMARY KEY,
+    ->     num_cuenta VARCHAR(20) NOT NULL,
+    ->     entidad_perteneciente INT,
+    ->     nombre VARCHAR(255)
+    -> );
+Query OK, 0 rows affected (0,03 sec)
+
+mysql> INSERT INTO Clientes (id, num_cuenta, entidad_perteneciente, nombre) VALUES
+    -> (1, '1234567890123456', 1, 'Juan Perez'),
+    -> (2, '2345678901234567', 2, 'Maria Rodriguez'),
+    -> (3, '3456789012345678', 3, 'Pedro Lopez'),
+    -> (4, '4567890123456789', 4, 'Ana Garcia');
+Query OK, 4 rows affected (0,00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+
