@@ -1,0 +1,88 @@
+CREATE DATABASE Taller_Pre_Parcial;
+USE Taller_Pre_Parcial;
+CREATE TABLE usuarios(
+	id_usuario INT PRIMARY KEY,
+    nombre VARCHAR(50),
+    contrasena VARCHAR(50)
+    );
+CREATE TABLE aseguradora(
+	id_asegura INT PRIMARY KEY,
+    nombre VARCHAR(80),
+    conductor VARCHAR(80)
+    );
+CREATE TABLE juzgado(
+	id_juz INT PRIMARY KEY,
+    nombre VARCHAR(150)
+	);
+CREATE TABLE reportes (
+	id_caso INT PRIMARY KEY,
+    fecha DATE,
+    estado VARCHAR(15),
+    id_asegura INT,
+    id_juz INT,
+    FOREIGN KEY (id_asegura) REFERENCES aseguradora(id_asegura),
+    FOREIGN KEY (id_juz) REFERENCES juzgado(id_juz)
+    );
+CREATE TABLE proceso(
+	id_proceso INT PRIMARY KEY,
+    nombre VARCHAR(20)
+    );
+CREATE TABLE expedientes(
+	id_expe INT PRIMARY KEY,
+    id_caso INT,
+    id_proceso INT,
+    id_asegura INT,
+    FOREIGN KEY (id_caso) REFERENCES reportes(id_caso),
+    FOREIGN KEY (id_proceso) REFERENCES proceso(id_proceso),
+    FOREIGN KEY (id_asegura) REFERENCES aseguradora(id_asegura)
+    );
+
+INSERT INTO usuarios (id_usuario, nombre, contrasena) VALUES
+(1, 'John Doe', 'password123'),
+(2, 'Jane Smith', 'securepass'),
+(3, 'Bob Jackson', 'mysecretpass'),
+(4, 'Alice Wonder', 'strongpassword'),
+(5, 'Sam Jones', 'mypass1234');
+
+INSERT INTO aseguradora (id_asegura, nombre, conductor) VALUES
+(1, 'Seguros La Unión', 'Juan Pérez'),
+(2, 'Aseguradora Nacional', 'María Rodríguez'),
+(3, 'Seguros del Sol', 'Carlos Gómez'),
+(4, 'Aseguradora Segura', 'Laura Fernández'),
+(5, 'Seguros Total', 'Roberto Martínez');
+
+INSERT INTO juzgado (id_juz, nombre) VALUES
+(1, 'Juzgado de lo Civil'),
+(2, 'Juzgado Penal'),
+(3, 'Juzgado de Familia'),
+(4, 'Juzgado Laboral'),
+(5, 'Juzgado Administrativo');
+
+INSERT INTO proceso (id_proceso, nombre) VALUES
+(1, 'Divorcio'),
+(2, 'Fraude'),
+(3, 'Despido Laboral'),
+(4, 'Lesiones'),
+(5, 'Contratos');
+
+INSERT INTO reportes (id_caso, fecha, estado, id_asegura, id_juz) VALUES
+(101, '2024-02-22', 'Abierto', 1, 1),
+(102, '2024-02-21', 'Cerrado', 2, 2),
+(103, '2024-02-20', 'En proceso', 3, 3),
+(104, '2024-02-19', 'Abierto', 4, 4),
+(105, '2024-02-18', 'Cerrado', 5, 5);
+
+INSERT INTO expedientes (id_expe, id_caso, id_proceso, id_asegura) VALUES
+(201, 101, 1, 1),
+(202, 102, 2, 2),
+(203, 103, 3, 3),
+(204, 104, 4, 4),
+(205, 105, 5, 5);
+
+
+
+    
+
+
+
+
