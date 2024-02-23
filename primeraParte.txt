@@ -1,0 +1,90 @@
+mysql> CREATE DATABASE primera_parte;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE primera_parte;
+Database changed
+mysql> CREATE TABLE User(
+    -> user_id INT PRIMARY KEY,
+    -> name VARCHAR(60),
+    -> password VARCHAR(60),
+    -> salt VARCHAR(100),
+    -> balance VARCHAR(60)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> SHOW TABLES;
++-------------------------+
+| Tables_in_primera_parte |
++-------------------------+
+| User                    |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO User (user_id, name, password, salt, balance) VALUES
+    -> (123456789, 'Alice Johnson', '2575war1', 's@wttwtgfds', '1500.00'),
+    -> (987654321, 'Bob Smith', '7535f3w43', 'sagsfgryew2', '2000.00'),
+    -> (246813579, 'Charlie Brown', '356456hrr', 'cafddg@rl1e#3', '2500.00'),
+    -> (369258147, 'David Lee', 'fgsfggs3463', 'aslkgsgk35#', '1800.00'),
+    -> (135792468, 'Emma Garcia', 'qerewr2563ert', 'sgfh4f51@#adf', '2200.00');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM User;
++-----------+---------------+---------------+---------------+---------+
+| user_id   | name          | password      | salt          | balance |
++-----------+---------------+---------------+---------------+---------+
+| 123456789 | Alice Johnson | 2575war1      | s@wttwtgfds   |    1500 |
+| 135792468 | Emma Garcia   | qerewr2563ert | sgfh4f51@#adf |    2200 |
+| 246813579 | Charlie Brown | 356456hrr     | cafddg@rl1e#3 |    2500 |
+| 369258147 | David Lee     | fgsfggs3463   | aslkgsgk35#   |    1800 |
+| 987654321 | Bob Smith     | 7535f3w43     | sagsfgryew2   |    2000 |
++-----------+---------------+---------------+---------------+---------+
+5 rows in set (0.00 sec)
+
+
+
+ mysql> INSERT INTO Contact (user_id, friend_id)
+    -> VALUES
+    -> (123456789, 135792468),
+    -> (123456789, 246813579),
+    -> (135792468, 123456789),
+    -> (246813579, 123456789),
+    -> (369258147, 987654321),
+    -> (987654321, 369258147);
+Query OK, 6 rows affected (0.01 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM Contact;
++-----------+-----------+
+| user_id   | friend_id |
++-----------+-----------+
+| 123456789 | 135792468 |
+| 123456789 | 246813579 |
+| 135792468 | 123456789 |
+| 246813579 | 123456789 |
+| 369258147 | 987654321 |
+| 987654321 | 369258147 |
++-----------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> 
+
+mysql> INSERT INTO Transaction (request_id, from_id, to_id, amount, reason, status, timestamp, category, request_send)
+    -> VALUES
+    -> (1, 123456789, 135792468, 100, 'Dinner', 'Completed', '2024-02-22', 'Food', 'Yes'),
+    -> (2, 246813579, 123456789, 50, 'Gift', 'Completed', '2024-02-22', 'Gift', 'No'),
+    -> (3, 987654321, 369258147, 200, 'Loan', 'Completed', '2024-02-22', 'Loan', 'Yes');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM Transaction;
++------------+-----------+-----------+--------+--------+-----------+------------+----------+--------------+
+| request_id | from_id   | to_id     | amount | reason | status    | timestamp  | category | request_send |
++------------+-----------+-----------+--------+--------+-----------+------------+----------+--------------+
+|          1 | 123456789 | 135792468 |    100 | Dinner | Completed | 2024-02-22 | Food     | Yes          |
+|          2 | 246813579 | 123456789 |     50 | Gift   | Completed | 2024-02-22 | Gift     | No           |
+|          3 | 987654321 | 369258147 |    200 | Loan   | Completed | 2024-02-22 | Loan     | Yes          |
++------------+-----------+-----------+--------+--------+-----------+------------+----------+--------------+
+3 rows in set (0.00 sec)
+
+
